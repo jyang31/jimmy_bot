@@ -1,6 +1,9 @@
 #pragma config(Sensor, dgtl1,  Left_DT_Encoder, sensorQuadEncoder)
 #pragma config(Sensor, dgtl3,  Right_DT_Encoder, sensorQuadEncoder)
+#pragma config(Sensor, dgtl5,  Shooter_Encoder, sensorQuadEncoder)
 #pragma config(Motor,  port1,           rightMotor,    tmotorVex393_HBridge, openLoop)
+#pragma config(Motor,  port2,           leftShooterMotor, tmotorVex393_MC29, openLoop)
+#pragma config(Motor,  port3,           rightShooterMotor, tmotorVex393_MC29, openLoop, reversed)
 #pragma config(Motor,  port4,           firstIntakeMotor, tmotorVex269_MC29, openLoop, reversed)
 #pragma config(Motor,  port5,           secondIntakeMotor, tmotorVex269_MC29, openLoop, reversed)
 #pragma config(Motor,  port10,          leftMotor,     tmotorVex393_HBridge, openLoop, reversed)
@@ -93,40 +96,93 @@ task usercontrol()
 		// ........................................................................
 
 		// Remove this function call once you have "real" code.
-//Variables
-		int firstintakeSpeed = 0;
-		int secondintakeSpeed = 0;
+		//Variables
+		//int firstintakeSpeed = 0;
+		//int secondintakeSpeed = 0;
 
 
 		//Basic Movement
 		motor[leftMotor]  = vexRT[Ch3];   // Left Joystick Y value
 		motor[rightMotor] = vexRT[Ch2];   // Right Joystick Y value
 
-//Intake(s)
-		//FirstIntake
-		if(vexRT[Btn7L] == 1){
-			firstintakeSpeed = 127;
-		}
-		else if (vexRT[Btn7R] == 1){
-			firstintakeSpeed = -127;
-		}
-		else if (vexRT[Btn8U] == 1){
-			firstintakeSpeed = 0;
-		}
+		//Shooter
+		if(vexRT[Btn6U] == 1)
+		{
+			motor[leftShooterMotor] = 110;
+			motor[rightShooterMotor] = 110;
+		}// When 6U pressed fast
+		else if(vexRT[Btn6D] == 1)
+		{
+			motor[leftShooterMotor] = 63;
+			motor[rightShooterMotor] = 63;
+		}//When 6D pressed slow
+		else if(vexRT[Btn7L] == 1)
+		{
+			motor[leftShooterMotor] = -63;
+			motor[rightShooterMotor] = -63;
+			}//If 7L pressed reverse shooter slowly
+		else
+		{
+			motor [leftShooterMotor] = 0;
+			motor [rightShooterMotor] = 0;
+		}//When nothing is pressed
 
-		motor[firstIntakeMotor] = firstintakeSpeed;
+		//Intake(s)
+		//FirstIntake (NEW)
+
+		if(vexRT[Btn5U] == 1)
+		{
+			motor [firstIntakeMotor] = 127;
+		}//When 5U pressed
+		else if (vexRT[Btn7U] == 1)
+		{
+			motor [firstIntakeMotor] = -127;
+		}//If 7U is pressed reverse
+		else
+		{
+			motor[firstIntakeMotor] = 0;
+		}// When nothing is pressed
+
+		//SecondIntake (NEW)
+		if(vexRT[Btn5D] == 1)
+		{
+			motor[secondIntakeMotor] = 127;
+		}//When 5D is pressed
+		else if(vexRT[Btn7D] == 1)
+		{
+			motor[secondIntakeMotor] = -127;
+		}//When 7D is pressed reverse
+		else
+		{
+			motor[secondIntakeMotor] = 0;
+		}//When nothing is pressed
+
+
+
+		////FirstIntake (OLD)
+		//if(vexRT[Btn7L] == 1){
+		//	firstintakeSpeed = 127;
+		//}
+		//else if (vexRT[Btn7R] == 1){
+		//	firstintakeSpeed = -127;
+		//}
+		//else if (vexRT[Btn8U] == 1){
+		//	firstintakeSpeed = 0;
+		//}
+
+		//motor[firstIntakeMotor] = firstintakeSpeed;
 
 		//Second Intake
-			if(vexRT[Btn7U] == 1){
-			secondintakeSpeed = 127;
-		}
-		else if (vexRT[Btn7D] == 1){
-			secondintakeSpeed = -127;
-		}
-		else if (vexRT[Btn8U] == 1){
-			secondintakeSpeed = 0;
-		}
+		//	if(vexRT[Btn7U] == 1){
+		//		secondintakeSpeed = 127;
+		//	}
+		//	else if (vexRT[Btn7D] == 1){
+		//		secondintakeSpeed = -127;
+		//	}
+		//	else if (vexRT[Btn8U] == 1){
+		//		secondintakeSpeed = 0;
+		//	}
 
-		motor[secondIntakeMotor] = secondintakeSpeed;
+		//	motor[secondIntakeMotor] = secondintakeSpeed;
 	}
 }

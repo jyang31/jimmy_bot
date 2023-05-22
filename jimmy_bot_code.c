@@ -207,7 +207,7 @@ task usercontrol()
 			motor [firstIntakeMotor] = -127;
 			//motor [firstIntakeMotorTwo] = -127;
 		}//If 7U is pressed reverse
-		else
+		else if(vexRT[Btn7L] == 1)
 		{
 			motor[firstIntakeMotor] = 0;
 			//motor[firstIntakeMotorTwo] = 0;
@@ -222,7 +222,7 @@ task usercontrol()
 		{
 			motor[secondIntakeMotor] = -127;
 		}//When 7D is pressed reverse
-		else if(vexRT[Btn7L] == 1)
+		else
 		{
 			motor[secondIntakeMotor] = 0;
 		}//When nothing is pressed

@@ -70,24 +70,31 @@ task autonomous()
 	// ..........................................................................
 
 	// Remove this function call once you have "real" code.
-
+while (1==1)
+	{
 	//Setup
 	SensorValue(Left_DT_Encoder) = 0;
 	SensorValue(Right_DT_Encoder) = 0;
 	SensorValue(Shooter_Encoder) = 0;
+//Wait Jumper
+	if (SensorValue[waitJumper] == 0)
+	{
+		wait(5);
+	}//wait jumper
 
 	//PLACEHOLDER CODE
-	motor[leftMotor] = -127;
+	if (SensorValue [Left_DT_Encoder] >= 0)
+{
+motor[leftMotor] = -127;
 	motor[rightMotor] = -127;
-	if (SensorValue[Left_DT_Encoder] > 1080)
+}
+	else if (SensorValue[Left_DT_Encoder] > 2)
+		//|| SensorValue[Right_DT_Encoder] < -2)
 {
 motor[leftMotor] = 0;
 motor[rightMotor] = 0;
 }
-	//if (SensorValue[waitJumper] == 0)
-	//{
-	//	wait(5);
-	//}//wait jumper
+
 
 	//Actual Movement
 //	if (SensorValue[RedorBlueJumper] == 0)
@@ -106,7 +113,7 @@ motor[rightMotor] = 0;
 //		{
 //			motor[leftShooterMotor] = 127;
 //			motor[rightShooterMotor] = 127;
-//			wait(5);//wait to get up to speed
+//			wait(7);//wait to get up to speed
 //			motor[secondIntakeMotor] = 127;//fire
 //		}//Shooter
 
@@ -130,12 +137,13 @@ motor[rightMotor] = 0;
 //		{
 //			motor[leftShooterMotor] = 127;
 //			motor[rightShooterMotor] = 127;
-//			wait(5);//wait to get up to speed
+//			wait(7);//wait to get up to speed
 //			motor[secondIntakeMotor] = 127;//fire
 //		}//Shooter
 
 //	}//if jumper is not in red
-}
+}//while loop
+}//task main
 
 /*---------------------------------------------------------------------------*/
 /*                                                                           */

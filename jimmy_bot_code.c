@@ -39,6 +39,7 @@
 
 void pre_auton()
 {
+
 	// Set bStopTasksBetweenModes to false if you want to keep user created tasks
 	// running between Autonomous and Driver controlled modes. You will need to
 	// manage all user created tasks if set to false.
@@ -65,6 +66,9 @@ void pre_auton()
 
 task autonomous()
 {
+			SensorValue(Left_DT_Encoder) = 0;
+	SensorValue(Right_DT_Encoder) = 0;
+	SensorValue(Shooter_Encoder) = 0;
 	// ..........................................................................
 	// Insert user code here.
 	// ..........................................................................
@@ -72,23 +76,20 @@ task autonomous()
 	// Remove this function call once you have "real" code.
 while (1==1)
 	{
-	//Setup
-	SensorValue(Left_DT_Encoder) = 0;
-	SensorValue(Right_DT_Encoder) = 0;
-	SensorValue(Shooter_Encoder) = 0;
 //Wait Jumper
-	if (SensorValue[waitJumper] == 0)
-	{
-		wait(5);
-	}//wait jumper
+
+	//if (SensorValue[waitJumper] == 0)
+	//{
+	//	wait(5);
+	//}//wait jumper
 
 	//PLACEHOLDER CODE
-	if (SensorValue [Left_DT_Encoder] >= 0)
+	if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 2)
 {
 motor[leftMotor] = -127;
 	motor[rightMotor] = -127;
 }
-	else if (SensorValue[Left_DT_Encoder] > 2)
+	else if (SensorValue[Left_DT_Encoder] >= 2)
 		//|| SensorValue[Right_DT_Encoder] < -2)
 {
 motor[leftMotor] = 0;
@@ -215,7 +216,8 @@ task usercontrol()
 			motor [firstIntakeMotor] = -127;
 			//motor [firstIntakeMotorTwo] = -127;
 		}//If 7U is pressed reverse
-		else if(vexRT[Btn7L] == 1)
+		else
+			//if(vexRT[Btn7L] == 1)
 		{
 			motor[firstIntakeMotor] = 0;
 			//motor[firstIntakeMotorTwo] = 0;

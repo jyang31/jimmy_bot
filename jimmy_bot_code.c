@@ -68,6 +68,10 @@ task autonomous()
 	SensorValue(Left_DT_Encoder) = 0;
 	SensorValue(Right_DT_Encoder) = 0;
 
+		if (SensorValue[waitJumper] == 0)
+		{
+			wait(5);
+		}//wait jumper
 	// ..........................................................................
 	// Insert user code here.
 	// ..........................................................................
@@ -77,48 +81,50 @@ task autonomous()
 	{
 		//Wait Jumper
 
-		if (SensorValue[waitJumper] == 0)
-		{
-			wait(5);
-		}//wait jumper
 
 		//Actual Movement
 		//start of red
+		//turn-initial = 780
 		if (SensorValue [RedorBlueJumper] == 1)
 		{
-			if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 720)
-			{
-				motor[leftMotor] = -127;
-				motor[rightMotor] = -127;
-			}//1st move forward
-			else if (SensorValue[Left_DT_Encoder] >= 720 && SensorValue[Left_DT_Encoder] < 900)
+			//if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 20)
+			//{
+			//	motor[leftMotor] = -127;
+			//	motor[rightMotor] = -127;
+			//}//1st move forward
+			 if (SensorValue[Left_DT_Encoder] >= 0 && SensorValue[Left_DT_Encoder] < 360)
 
 			{
 				motor[leftMotor] = -127;
 				motor[rightMotor] = 0;
 			}//turn
-			else if (SensorValue[Left_DT_Encoder] >= 900)
+			else if (SensorValue[Left_DT_Encoder] >= 360 && SensorValue[Left_DT_Encoder] < 720)
 			{
-			motor[leftMotor] = 0;
-			motor[rightMotor] = 0;
+			motor[leftMotor] = -127;
+			motor[rightMotor] = -127;
 			}//move forward again
+else if (SensorValue[Left_DT_Encoder] >= 720)
+{
+motor[leftMotor] = 0;
+motor[rightMotor] = 0;
 
+}//fire
 		}//jumper out: red
 
 		//start of blue
 		else if (SensorValue [RedorBlueJumper] == 0)
 		{
-			if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -720)
-			{
-				motor[leftMotor] = -127;
-				motor[rightMotor] = -127;
-			}//first move forward
-else if (SensorValue [Right_DT_Encoder] <= -720 && SensorValue [Right_DT_Encoder] > -900)
+			//if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -20)
+			//{
+			//	motor[leftMotor] = -127;
+			//	motor[rightMotor] = -127;
+			//}//first move forward
+if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -360)
 {
 motor[rightMotor] = -127;
 motor[leftMotor] = 0;
 }//turn
-else if (SensorValue [Right_DT_Encoder] <= -900)
+else if (SensorValue [Right_DT_Encoder] <= -360)
 {
 	motor[leftMotor] = 0;
 	motor[rightMotor] = 0;
@@ -218,7 +224,7 @@ task usercontrol()
 		{
 			motor[leftShooterMotor] = 0;
 			motor[rightShooterMotor] = 0;
-		}//When 6D pressed stop
+		}//When 6D pressed stopx
 		//else if(vexRT[Btn7L] == 1)
 		//{
 		//	motor[leftShooterMotor] = -63;

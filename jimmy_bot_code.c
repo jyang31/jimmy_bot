@@ -68,10 +68,10 @@ task autonomous()
 	SensorValue(Left_DT_Encoder) = 0;
 	SensorValue(Right_DT_Encoder) = 0;
 
-		if (SensorValue[waitJumper] == 0)
-		{
-			wait(5);
-		}//wait jumper
+	if (SensorValue[waitJumper] == 0)
+	{
+		wait(5);
+	}//wait jumper
 	// ..........................................................................
 	// Insert user code here.
 	// ..........................................................................
@@ -79,12 +79,12 @@ task autonomous()
 	// Remove this function call once you have "real" code.
 	while (1==1)
 	{
-		//Wait Jumper
+
 
 
 		//Actual Movement
 		//start of red
-		//turn-initial = 780
+
 		if (SensorValue [RedorBlueJumper] == 1)
 		{
 			//if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 20)
@@ -92,7 +92,7 @@ task autonomous()
 			//	motor[leftMotor] = -127;
 			//	motor[rightMotor] = -127;
 			//}//1st move forward
-			 if (SensorValue[Left_DT_Encoder] >= 0 && SensorValue[Left_DT_Encoder] < 360)
+			if (SensorValue[Left_DT_Encoder] >= 0 && SensorValue[Left_DT_Encoder] < 360)
 
 			{
 				motor[leftMotor] = -127;
@@ -100,15 +100,19 @@ task autonomous()
 			}//turn
 			else if (SensorValue[Left_DT_Encoder] >= 360 && SensorValue[Left_DT_Encoder] < 720)
 			{
-			motor[leftMotor] = -127;
-			motor[rightMotor] = -127;
-			}//move forward again
-else if (SensorValue[Left_DT_Encoder] >= 720)
-{
-motor[leftMotor] = 0;
-motor[rightMotor] = 0;
+				motor[leftMotor] = -127;
+				motor[rightMotor] = -127;
+			}//move forward
+			else if (SensorValue[Left_DT_Encoder] >= 720)
+			{
+				motor[leftMotor] = 0;
+				motor[rightMotor] = 0;
+				//motor[leftShooterMotor] = 127;
+				//motor[rightShooterMotor] = 127;
+				//wait(8);
+				//motor[secondIntakeMotor] = 127;
 
-}//fire
+			}//stop moving/fire
 		}//jumper out: red
 
 		//start of blue
@@ -119,65 +123,32 @@ motor[rightMotor] = 0;
 			//	motor[leftMotor] = -127;
 			//	motor[rightMotor] = -127;
 			//}//first move forward
-if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -360)
-{
-motor[rightMotor] = -127;
-motor[leftMotor] = 0;
-}//turn
-else if (SensorValue [Right_DT_Encoder] <= -360)
-{
-	motor[leftMotor] = 0;
-	motor[rightMotor] = 0;
-}//move forward again
+			if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -360)
+			{
+				motor[rightMotor] = -127;
+				motor[leftMotor] = 0;
+			}//turn
+			else if (SensorValue [Right_DT_Encoder] <= -360 && SensorValue [Right_DT_Encoder] > -720)
+			{
+				motor[leftMotor] = -127;
+				motor[rightMotor] = -127;
+			}//move forward
+			else if (SensorValue [Right_DT_Encoder] <= -720)
+			{
+				motor[leftMotor] = 0;
+				motor[rightMotor] = 0;
+				//motor[leftShooterMotor] = 127;
+				//motor[rightShooterMotor] = 127;
+				//wait(8);
+				//motor[secondIntakeMotor] = 127;
+			}
+			//stop moving/fire
+
 		}//jumper in: blue
-		//Actual Movement
-		//	if (SensorValue[RedorBlueJumper] == 0)
-		//	{
-		//		if (SensorValue[Left_DT_Encoder] < 720)
-		//		{
-		//			motor[leftMotor] = -127;
-		//		}//Turn to Goal
-
-		//		else if(SensorValue[Left_DT_Encoder] >= 720 && SensorValue[Left_DT_Encoder] < 1440)
-		//		{
-		//			motor(leftMotor) = -127;
-		//			motor(rightMotor) = -127;
-		//		}//Move Forward
-		//		else if (SensorValue[Left_DT_Encoder] >= 1440)
-		//		{
-		//			motor[leftShooterMotor] = 127;
-		//			motor[rightShooterMotor] = 127;
-		//			wait(7);//wait to get up to speed
-		//			motor[secondIntakeMotor] = 127;//fire
-		//		}//Shooter
 
 
-
-
-		//	}//if jumper is in blue
-
-		//	if (SensorValue[RedorBlueJumper] == 1)//Red Side
-		//	{
-		//		if (SensorValue[Right_DT_Encoder] < -720)
-		//		{
-		//			motor[rightMotor] = -127;
-		//		}//Turn to Goal
-		//		else if(SensorValue[Right_DT_Encoder] <= -720 && SensorValue[Right_DT_Encoder] < 1440)
-		//		{
-		//			motor(leftMotor) = -127;
-		//			motor(rightMotor) = -127;
-		//		}//Move Forward
-		//		else if (SensorValue[Right_DT_Encoder] <= -1440)
-		//		{
-		//			motor[leftShooterMotor] = 127;
-		//			motor[rightShooterMotor] = 127;
-		//			wait(7);//wait to get up to speed
-		//			motor[secondIntakeMotor] = 127;//fire
-		//		}//Shooter
-
-		//	}//if jumper is not in red
 	}//while loop
-}//task main
+}//task autonomous
 
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
@@ -224,17 +195,8 @@ task usercontrol()
 		{
 			motor[leftShooterMotor] = 0;
 			motor[rightShooterMotor] = 0;
-		}//When 6D pressed stopx
-		//else if(vexRT[Btn7L] == 1)
-		//{
-		//	motor[leftShooterMotor] = -63;
-		//	motor[rightShooterMotor] = -63;
-		//	}//If 7L pressed reverse shooter slowly
-		//else
-		//{
-		//	motor [leftShooterMotor] = 0;
-		//	motor [rightShooterMotor] = 0;
-		//}//When nothing is pressed
+		}//When 6D pressed stop
+
 
 		//Intake(s)
 		//FirstIntake (NEW)
@@ -242,25 +204,22 @@ task usercontrol()
 		if(vexRT[Btn5U] == 1)
 		{
 			motor [firstIntakeMotor] = 127;
-			//motor [firstIntakeMotorTwo] = 127;
-		}//When 5U pressed
+		}//When 5U pressed intake
 		else if (vexRT[Btn7U] == 1)
 		{
 			motor [firstIntakeMotor] = -127;
-			//motor [firstIntakeMotorTwo] = -127;
 		}//If 7U is pressed reverse
 		else
-			//if(vexRT[Btn7L] == 1)
+			//if(vexRT[Btn7L] == 1) //toggleable if uncommented
 		{
 			motor[firstIntakeMotor] = 0;
-			//motor[firstIntakeMotorTwo] = 0;
 		}// When nothing is pressed
 
 		//SecondIntake (NEW)
 		if(vexRT[Btn5D] == 1)
 		{
 			motor[secondIntakeMotor] = 127;
-		}//When 5D is pressed
+		}//When 5D is pressed intake
 		else if(vexRT[Btn7D] == 1)
 		{
 			motor[secondIntakeMotor] = -127;
@@ -270,7 +229,7 @@ task usercontrol()
 			motor[secondIntakeMotor] = 0;
 		}//When nothing is pressed
 
-		//TEST CODE
+		//TEST CODE for shooter motors
 		//if(vexRT[Btn8U] == 1)
 		//{
 		//	motor[leftShooterMotor] = 63;
@@ -291,30 +250,6 @@ task usercontrol()
 		//}
 
 
-		////FirstIntake (OLD)
-		//if(vexRT[Btn7L] == 1){
-		//	firstintakeSpeed = 127;
-		//}
-		//else if (vexRT[Btn7R] == 1){
-		//	firstintakeSpeed = -127;
-		//}
-		//else if (vexRT[Btn8U] == 1){
-		//	firstintakeSpeed = 0;
-		//}
 
-		//motor[firstIntakeMotor] = firstintakeSpeed;
-
-		//Second Intake
-		//	if(vexRT[Btn7U] == 1){
-		//		secondintakeSpeed = 127;
-		//	}
-		//	else if (vexRT[Btn7D] == 1){
-		//		secondintakeSpeed = -127;
-		//	}
-		//	else if (vexRT[Btn8U] == 1){
-		//		secondintakeSpeed = 0;
-		//	}
-
-		//	motor[secondIntakeMotor] = secondintakeSpeed;
 	}
 }

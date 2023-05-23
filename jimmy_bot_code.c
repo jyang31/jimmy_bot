@@ -1,8 +1,7 @@
 #pragma config(Sensor, dgtl1,  Left_DT_Encoder, sensorQuadEncoder)
 #pragma config(Sensor, dgtl3,  Right_DT_Encoder, sensorQuadEncoder)
-#pragma config(Sensor, dgtl5,  Shooter_Encoder, sensorQuadEncoder)
-#pragma config(Sensor, dgtl11, waitJumper,     sensorDigitalIn)
-#pragma config(Sensor, dgtl12, RedorBlueJumper, sensorDigitalIn)
+#pragma config(Sensor, dgtl5,  RedorBlueJumper, sensorDigitalIn)
+#pragma config(Sensor, dgtl6,  waitJumper,     sensorDigitalIn)
 #pragma config(Motor,  port1,           rightShooterMotor, tmotorVex393_HBridge, openLoop, reversed)
 #pragma config(Motor,  port2,           leftMotor,     tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port3,           rightMotor,    tmotorVex393_MC29, openLoop, reversed)
@@ -66,84 +65,112 @@ void pre_auton()
 
 task autonomous()
 {
-			SensorValue(Left_DT_Encoder) = 0;
+	SensorValue(Left_DT_Encoder) = 0;
 	SensorValue(Right_DT_Encoder) = 0;
-	SensorValue(Shooter_Encoder) = 0;
+
 	// ..........................................................................
 	// Insert user code here.
 	// ..........................................................................
 
 	// Remove this function call once you have "real" code.
-while (1==1)
+	while (1==1)
 	{
-//Wait Jumper
+		//Wait Jumper
 
-	//if (SensorValue[waitJumper] == 0)
-	//{
-	//	wait(5);
-	//}//wait jumper
+		if (SensorValue[waitJumper] == 0)
+		{
+			wait(5);
+		}//wait jumper
 
-	//PLACEHOLDER CODE
-	if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 2)
+		//Actual Movement
+		//start of red
+		if (SensorValue [RedorBlueJumper] == 1)
+		{
+			if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 720)
+			{
+				motor[leftMotor] = -127;
+				motor[rightMotor] = -127;
+			}//1st move forward
+			else if (SensorValue[Left_DT_Encoder] >= 720 && SensorValue[Left_DT_Encoder] < 900)
+
+			{
+				motor[leftMotor] = -127;
+				motor[rightMotor] = 0;
+			}//turn
+			else if (SensorValue[Left_DT_Encoder] >= 900)
+			{
+			motor[leftMotor] = 0;
+			motor[rightMotor] = 0;
+			}//move forward again
+
+		}//jumper out: red
+
+		//start of blue
+		else if (SensorValue [RedorBlueJumper] == 0)
+		{
+			if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -720)
+			{
+				motor[leftMotor] = -127;
+				motor[rightMotor] = -127;
+			}//first move forward
+else if (SensorValue [Right_DT_Encoder] <= -720 && SensorValue [Right_DT_Encoder] > -900)
 {
-motor[leftMotor] = -127;
-	motor[rightMotor] = -127;
-}
-	else if (SensorValue[Left_DT_Encoder] >= 2)
-		//|| SensorValue[Right_DT_Encoder] < -2)
-{
+motor[rightMotor] = -127;
 motor[leftMotor] = 0;
-motor[rightMotor] = 0;
-}
+}//turn
+else if (SensorValue [Right_DT_Encoder] <= -900)
+{
+	motor[leftMotor] = 0;
+	motor[rightMotor] = 0;
+}//move forward again
+		}//jumper in: blue
+		//Actual Movement
+		//	if (SensorValue[RedorBlueJumper] == 0)
+		//	{
+		//		if (SensorValue[Left_DT_Encoder] < 720)
+		//		{
+		//			motor[leftMotor] = -127;
+		//		}//Turn to Goal
+
+		//		else if(SensorValue[Left_DT_Encoder] >= 720 && SensorValue[Left_DT_Encoder] < 1440)
+		//		{
+		//			motor(leftMotor) = -127;
+		//			motor(rightMotor) = -127;
+		//		}//Move Forward
+		//		else if (SensorValue[Left_DT_Encoder] >= 1440)
+		//		{
+		//			motor[leftShooterMotor] = 127;
+		//			motor[rightShooterMotor] = 127;
+		//			wait(7);//wait to get up to speed
+		//			motor[secondIntakeMotor] = 127;//fire
+		//		}//Shooter
 
 
-	//Actual Movement
-//	if (SensorValue[RedorBlueJumper] == 0)
-//	{
-//		if (SensorValue[Left_DT_Encoder] < 720)
-//		{
-//			motor[leftMotor] = -127;
-//		}//Turn to Goal
-
-//		else if(SensorValue[Left_DT_Encoder] >= 720 && SensorValue[Left_DT_Encoder] < 1440)
-//		{
-//			motor(leftMotor) = -127;
-//			motor(rightMotor) = -127;
-//		}//Move Forward
-//		else if (SensorValue[Left_DT_Encoder] >= 1440)
-//		{
-//			motor[leftShooterMotor] = 127;
-//			motor[rightShooterMotor] = 127;
-//			wait(7);//wait to get up to speed
-//			motor[secondIntakeMotor] = 127;//fire
-//		}//Shooter
 
 
+		//	}//if jumper is in blue
 
+		//	if (SensorValue[RedorBlueJumper] == 1)//Red Side
+		//	{
+		//		if (SensorValue[Right_DT_Encoder] < -720)
+		//		{
+		//			motor[rightMotor] = -127;
+		//		}//Turn to Goal
+		//		else if(SensorValue[Right_DT_Encoder] <= -720 && SensorValue[Right_DT_Encoder] < 1440)
+		//		{
+		//			motor(leftMotor) = -127;
+		//			motor(rightMotor) = -127;
+		//		}//Move Forward
+		//		else if (SensorValue[Right_DT_Encoder] <= -1440)
+		//		{
+		//			motor[leftShooterMotor] = 127;
+		//			motor[rightShooterMotor] = 127;
+		//			wait(7);//wait to get up to speed
+		//			motor[secondIntakeMotor] = 127;//fire
+		//		}//Shooter
 
-//	}//if jumper is in blue
-
-//	if (SensorValue[RedorBlueJumper] == 1)//Red Side
-//	{
-//		if (SensorValue[Right_DT_Encoder] < -720)
-//		{
-//			motor[rightMotor] = -127;
-//		}//Turn to Goal
-//		else if(SensorValue[Right_DT_Encoder] <= -720 && SensorValue[Right_DT_Encoder] < 1440)
-//		{
-//			motor(leftMotor) = -127;
-//			motor(rightMotor) = -127;
-//		}//Move Forward
-//		else if (SensorValue[Right_DT_Encoder] <= -1440)
-//		{
-//			motor[leftShooterMotor] = 127;
-//			motor[rightShooterMotor] = 127;
-//			wait(7);//wait to get up to speed
-//			motor[secondIntakeMotor] = 127;//fire
-//		}//Shooter
-
-//	}//if jumper is not in red
-}//while loop
+		//	}//if jumper is not in red
+	}//while loop
 }//task main
 
 /*---------------------------------------------------------------------------*/

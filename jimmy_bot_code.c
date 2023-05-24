@@ -87,21 +87,21 @@ task autonomous()
 
 		if (SensorValue [RedorBlueJumper] == 1)
 		{
-			//if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 20)
-			//{
-			//	motor[leftMotor] = -127;
-			//	motor[rightMotor] = -127;
-			//}//1st move forward
+			if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 20)
+			{
+				motor[leftMotor] = -63;
+				motor[rightMotor] = -63;
+			}//1st move forward
 			if (SensorValue[Left_DT_Encoder] >= 0 && SensorValue[Left_DT_Encoder] < 360)
 
 			{
-				motor[leftMotor] = -127;
+				motor[leftMotor] = -63;
 				motor[rightMotor] = 0;
 			}//turn
 			else if (SensorValue[Left_DT_Encoder] >= 360 && SensorValue[Left_DT_Encoder] < 720)
 			{
-				motor[leftMotor] = -127;
-				motor[rightMotor] = -127;
+				motor[leftMotor] = -63;
+				motor[rightMotor] = -63;
 			}//move forward
 			else if (SensorValue[Left_DT_Encoder] >= 720)
 			{
@@ -118,22 +118,22 @@ task autonomous()
 		//start of blue
 		else if (SensorValue [RedorBlueJumper] == 0)
 		{
-			//if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -20)
-			//{
-			//	motor[leftMotor] = -127;
-			//	motor[rightMotor] = -127;
-			//}//first move forward
-			if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -360)
+			if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -80)
 			{
-				motor[rightMotor] = -127;
+				motor[leftMotor] = -63;
+				motor[rightMotor] = -63;
+			}//first move forward
+			if (SensorValue [Right_DT_Encoder] <= -80 && SensorValue [Right_DT_Encoder] > -600)
+			{
+				motor[rightMotor] = -63;
 				motor[leftMotor] = 0;
 			}//turn
-			else if (SensorValue [Right_DT_Encoder] <= -360 && SensorValue [Right_DT_Encoder] > -720)
+			else if (SensorValue [Right_DT_Encoder] <= -600 && SensorValue [Right_DT_Encoder] > -1350)
 			{
-				motor[leftMotor] = -127;
-				motor[rightMotor] = -127;
+				motor[leftMotor] = -63;
+				motor[rightMotor] = -63;
 			}//move forward
-			else if (SensorValue [Right_DT_Encoder] <= -720)
+			else if (SensorValue [Right_DT_Encoder] <= -1350)
 			{
 				motor[leftMotor] = 0;
 				motor[rightMotor] = 0;

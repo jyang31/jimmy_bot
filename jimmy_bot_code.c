@@ -87,30 +87,30 @@ task autonomous()
 
 		if (SensorValue [RedorBlueJumper] == 1)
 		{
-			if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 20)
+			if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 60)
 			{
 				motor[leftMotor] = -63;
 				motor[rightMotor] = -63;
 			}//1st move forward
-			if (SensorValue[Left_DT_Encoder] >= 0 && SensorValue[Left_DT_Encoder] < 360)
+			if (SensorValue[Left_DT_Encoder] >= 60 && SensorValue[Left_DT_Encoder] < 700)
 
 			{
 				motor[leftMotor] = -63;
 				motor[rightMotor] = 0;
 			}//turn
-			else if (SensorValue[Left_DT_Encoder] >= 360 && SensorValue[Left_DT_Encoder] < 720)
+			else if (SensorValue[Left_DT_Encoder] >= 700 && SensorValue[Left_DT_Encoder] < 1360)
 			{
 				motor[leftMotor] = -63;
 				motor[rightMotor] = -63;
-			}//move forward
-			else if (SensorValue[Left_DT_Encoder] >= 720)
+			}//move forward again
+			else if (SensorValue[Left_DT_Encoder] >= 1360)
 			{
 				motor[leftMotor] = 0;
 				motor[rightMotor] = 0;
-				//motor[leftShooterMotor] = 127;
-				//motor[rightShooterMotor] = 127;
-				//wait(8);
-				//motor[secondIntakeMotor] = 127;
+				motor[leftShooterMotor] = 127;
+				motor[rightShooterMotor] = 127;
+				wait(8);
+				motor[secondIntakeMotor] = 127;
 
 			}//stop moving/fire
 		}//jumper out: red
@@ -118,29 +118,29 @@ task autonomous()
 		//start of blue
 		else if (SensorValue [RedorBlueJumper] == 0)
 		{
-			if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -80)
+			if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -120)
 			{
 				motor[leftMotor] = -63;
 				motor[rightMotor] = -63;
 			}//first move forward
-			if (SensorValue [Right_DT_Encoder] <= -80 && SensorValue [Right_DT_Encoder] > -600)
+			if (SensorValue [Right_DT_Encoder] <= -120 && SensorValue [Right_DT_Encoder] > -640)
 			{
 				motor[rightMotor] = -63;
 				motor[leftMotor] = 0;
 			}//turn
-			else if (SensorValue [Right_DT_Encoder] <= -600 && SensorValue [Right_DT_Encoder] > -1350)
+			else if (SensorValue [Right_DT_Encoder] <= -640 && SensorValue [Right_DT_Encoder] > -1380)
 			{
 				motor[leftMotor] = -63;
 				motor[rightMotor] = -63;
-			}//move forward
-			else if (SensorValue [Right_DT_Encoder] <= -1350)
+			}//move forward again
+			else if (SensorValue [Right_DT_Encoder] <= -1380)
 			{
 				motor[leftMotor] = 0;
 				motor[rightMotor] = 0;
-				//motor[leftShooterMotor] = 127;
-				//motor[rightShooterMotor] = 127;
-				//wait(8);
-				//motor[secondIntakeMotor] = 127;
+				motor[leftShooterMotor] = 127;
+				motor[rightShooterMotor] = 127;
+				wait(8);
+				motor[secondIntakeMotor] = 127;
 			}
 			//stop moving/fire
 

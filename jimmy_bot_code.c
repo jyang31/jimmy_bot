@@ -190,17 +190,17 @@ if (SensorValue [LoworHigh] == 0)
 				motor[leftMotor] = -63;
 				motor[rightMotor] = -63;
 			}//first move forward
-			if (SensorValue [Right_DT_Encoder] <= -740 && SensorValue [Right_DT_Encoder] > -1570)
+			if (SensorValue [Right_DT_Encoder] <= -740 && SensorValue [Right_DT_Encoder] > -1520)
 			{
 				motor[rightMotor] = -63;
 				motor[leftMotor] = 0;
 			}//turn
-			else if (SensorValue [Right_DT_Encoder] <= -1570 && SensorValue [Right_DT_Encoder] > -2240)
+			else if (SensorValue [Right_DT_Encoder] <= -1520 && SensorValue [Right_DT_Encoder] > -2190)
 			{
 				motor[leftMotor] = -63;
 				motor[rightMotor] = -63;
 			}//move forward again
-			else if (SensorValue [Right_DT_Encoder] <= -2240)
+			else if (SensorValue [Right_DT_Encoder] <= -2190)
 			{
 				motor[leftMotor] = 0;
 				motor[rightMotor] = 0;

@@ -68,6 +68,11 @@ void pre_auton()
 
 task autonomous()
 {
+	boolean stage0 = false;
+	boolean stage1 = false;
+	boolean stage2 = false;
+	int counter = 0;
+
 	SensorValue(Left_DT_Encoder) = 0;
 	SensorValue(Right_DT_Encoder) = 0;
 
@@ -82,12 +87,22 @@ task autonomous()
 	if (SensorValue [LoworHigh] == 0){
 		//red high goal
 		if (SensorValue [RedorBlueJumper] == 1){
-			while
+			while (!stage0) {
+				if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 60) {
+					motor[leftMotor] = -AUTON_SPEED;
+					motor[rightMotor] = -AUTON_SPEED;
+				}
+				else if (SensorValue [Left_DT_Encoder] > 60) {
+					motor[leftMotor] = AUTON_SPEED;
+					motor[rightMotor] = AUTON_SPEED;
+				}
+			}
 		}
 
 
 		//blue high goal
 		else if (SensorValue [RedorBlueJumper] == 0){
+			
 
 		}
 

@@ -3,6 +3,7 @@
 #pragma config(Sensor, dgtl5,  RedorBlueJumper, sensorDigitalIn)
 #pragma config(Sensor, dgtl6,  waitJumper,     sensorDigitalIn)
 #pragma config(Sensor, dgtl7,  LoworHigh,      sensorDigitalIn)
+#pragma config(Sensor, dgtl12, simpleJumper,   sensorDigitalIn)
 #pragma config(Motor,  port1,           rightShooterMotor, tmotorVex393_HBridge, openLoop, reversed)
 #pragma config(Motor,  port2,           leftMotor,     tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port3,           rightMotor,    tmotorVex393_MC29, openLoop, reversed)
@@ -73,146 +74,177 @@ task autonomous()
 	{
 		wait(5);
 	}//wait jumper
+
 	// ..........................................................................
 	// Insert user code here.
 	// ..........................................................................
 
 	// Remove this function call once you have "real" code.
 	while (1==1)
-	{
+	{//while loop
 
 
 
 		//Actual Movement
-	//HIGH GOAL INNER
-	//start of red
-if (SensorValue [LoworHigh] == 0)
-{
-		if (SensorValue [RedorBlueJumper] == 1)
+	  //Very Basic Movement Port 12
+	  //Does not rely on encoders
+		if (SensorValue [simpleJumper] == 0)
 		{
-			if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 60)
-			{
-				motor[leftMotor] = -63;
-				motor[rightMotor] = -63;
-			}//1st move forward
-			if (SensorValue[Left_DT_Encoder] >= 60 && SensorValue[Left_DT_Encoder] < 660)
+			motor	[leftMotor] = -63;
+			motor [rightMotor] = -63;
+			wait(3.25);
+			motor [leftMotor] = 0;
+			motor [rightMotor] = 0;
+			motor [leftShooterMotor] = 127;
+			motor [rightShooterMotor] = 127;
+			wait (8);
+			motor[secondIntakeMotor] = 85;
+		}//low goal; literally just move straight to low goal and fire
 
-			{
-				motor[leftMotor] = -63;
-				motor[rightMotor] = 0;
-			}//turn
-			else if (SensorValue[Left_DT_Encoder] >= 660 && SensorValue[Left_DT_Encoder] < 1320)
-			{
-				motor[leftMotor] = -63;
-				motor[rightMotor] = -63;
-			}//move forward again
-			else if (SensorValue[Left_DT_Encoder] >= 1320)
-			{
-				motor[leftMotor] = 0;
-				motor[rightMotor] = 0;
-				motor[leftShooterMotor] = 127;
-				motor[rightShooterMotor] = 127;
-				wait(8);
-				motor[secondIntakeMotor] = 127;
+//-------------------------------------------------------------------------------------------------------//
 
-			}//stop moving/fire
-		}//jumper out: red
+		else if (SensorValue [simpleJumper] == 1)
+		{//Movement based on encoders
 
-	//	start of blue
-		else if (SensorValue [RedorBlueJumper] == 0)
-		{
-			if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -80)
+			//HIGH GOAL INNER RED
+			//Jumper in Port 7
+			if (SensorValue [LoworHigh] == 0)
 			{
-				motor[leftMotor] = -63;
-				motor[rightMotor] = -63;
-			}//first move forward
-			if (SensorValue [Right_DT_Encoder] <= -80 && SensorValue [Right_DT_Encoder] > -600)
-			{
-				motor[rightMotor] = -63;
-				motor[leftMotor] = 0;
-			}//turn
-			else if (SensorValue [Right_DT_Encoder] <= -600 && SensorValue [Right_DT_Encoder] > -1340)
-			{
-				motor[leftMotor] = -63;
-				motor[rightMotor] = -63;
-			}//move forward again
-			else if (SensorValue [Right_DT_Encoder] <= -1340)
-			{
-				motor[leftMotor] = 0;
-				motor[rightMotor] = 0;
-				motor[leftShooterMotor] = 127;
-				motor[rightShooterMotor] = 127;
-				wait(8);
-				motor[secondIntakeMotor] = 127;
-			}
-			//stop moving/fire
-}//high goal
-		}//jumper in: blue
+				if (SensorValue [RedorBlueJumper] == 1)
+				{
+					if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 60)
+					{
+						motor[leftMotor] = -63;
+						motor[rightMotor] = -63;
+					}//1st move forward
+					if (SensorValue[Left_DT_Encoder] >= 60 && SensorValue[Left_DT_Encoder] < 660)
 
-		//low goal/ outer auton
-		if (SensorValue [LoworHigh] == 1)
-		{
-		if (SensorValue [RedorBlueJumper] == 1)
-		{
-			if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 660)
-			{
-				motor[leftMotor] = -63;
-				motor[rightMotor] = -63;
-			}//1st move forward
-			if (SensorValue[Left_DT_Encoder] >= 660 && SensorValue[Left_DT_Encoder] < 1890)
+					{
+						motor[leftMotor] = -63;
+						motor[rightMotor] = 0;
+					}//turn
+					else if (SensorValue[Left_DT_Encoder] >= 660 && SensorValue[Left_DT_Encoder] < 1320)
+					{
+						motor[leftMotor] = -63;
+						motor[rightMotor] = -63;
+					}//move forward again
+					else if (SensorValue[Left_DT_Encoder] >= 1320)
+					{
+						motor[leftMotor] = 0;
+						motor[rightMotor] = 0;
+						motor[leftShooterMotor] = 127;
+						motor[rightShooterMotor] = 127;
+						wait(8);
+						motor[secondIntakeMotor] = 127;
 
-			{
-				motor[leftMotor] = -63;
-				motor[rightMotor] = 0;
-			}//turn
-			else if (SensorValue[Left_DT_Encoder] >= 1890 && SensorValue[Left_DT_Encoder] < 2260)
-			{
-				motor[leftMotor] = -63;
-				motor[rightMotor] = -63;
-			}//move forward again
-			else if (SensorValue[Left_DT_Encoder] >= 2260)
-			{
-				motor[leftMotor] = 0;
-				motor[rightMotor] = 0;
-				motor[leftShooterMotor] = 80;
-				motor[rightShooterMotor] = 80;
-				wait(8);
-				motor[secondIntakeMotor] = 127;
+					}//stop moving/fire
+				}//End of Red High Goal
 
-			}//stop moving/fire
-		}//red side auton
+//------------------------------------------------------------------------------------------------------------------------//
 
-		//blue side auton
-		else if (SensorValue [RedorBlueJumper] == 0)
-		{
-			if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -740)
-			{
-				motor[leftMotor] = -63;
-				motor[rightMotor] = -63;
-			}//first move forward
-			if (SensorValue [Right_DT_Encoder] <= -740 && SensorValue [Right_DT_Encoder] > -1520)
-			{
-				motor[rightMotor] = -63;
-				motor[leftMotor] = 0;
-			}//turn
-			else if (SensorValue [Right_DT_Encoder] <= -1520 && SensorValue [Right_DT_Encoder] > -2190)
-			{
-				motor[leftMotor] = -63;
-				motor[rightMotor] = -63;
-			}//move forward again
-			else if (SensorValue [Right_DT_Encoder] <= -2190)
-			{
-				motor[leftMotor] = 0;
-				motor[rightMotor] = 0;
-				motor[leftShooterMotor] = 80;
-				motor[rightShooterMotor] = 80;
-				wait(8);
-				motor[secondIntakeMotor] = 127;
-			}
-			//stop moving/fire
+				//HIGH GOAL INNER BLUE
+				//Jumper in Ports 5 and 7
+				else if (SensorValue [RedorBlueJumper] == 0)
+				{
+					if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -80)
+					{
+						motor[leftMotor] = -63;
+						motor[rightMotor] = -63;
+					}//first move forward
+					if (SensorValue [Right_DT_Encoder] <= -80 && SensorValue [Right_DT_Encoder] > -600)
+					{
+						motor[rightMotor] = -63;
+						motor[leftMotor] = 0;
+					}//turn
+					else if (SensorValue [Right_DT_Encoder] <= -600 && SensorValue [Right_DT_Encoder] > -1340)
+					{
+						motor[leftMotor] = -63;
+						motor[rightMotor] = -63;
+					}//move forward again
+					else if (SensorValue [Right_DT_Encoder] <= -1340)
+					{
+						motor[leftMotor] = 0;
+						motor[rightMotor] = 0;
+						motor[leftShooterMotor] = 127;
+						motor[rightShooterMotor] = 127;
+						wait(8);
+						motor[secondIntakeMotor] = 127;
+					}//stop moving/fire
+				}//End of Blue high goal
+			}//End of High Goal Code
 
-		}//blue side auton
-}//low or high
+//-------------------------------------------------------------------------------------------------//
+
+			//LOW GOAL OUTER RED
+			//No Jumpers in
+			if (SensorValue [LoworHigh] == 1)
+			{
+				if (SensorValue [RedorBlueJumper] == 1)
+				{
+					if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 660)
+					{
+						motor[leftMotor] = -63;
+						motor[rightMotor] = -63;
+					}//1st move forward
+					if (SensorValue[Left_DT_Encoder] >= 660 && SensorValue[Left_DT_Encoder] < 1890)
+
+					{
+						motor[leftMotor] = -63;
+						motor[rightMotor] = 0;
+					}//turn
+					else if (SensorValue[Left_DT_Encoder] >= 1890 && SensorValue[Left_DT_Encoder] < 2260)
+					{
+						motor[leftMotor] = -63;
+						motor[rightMotor] = -63;
+					}//move forward again
+					else if (SensorValue[Left_DT_Encoder] >= 2260)
+					{
+						motor[leftMotor] = 0;
+						motor[rightMotor] = 0;
+						motor[leftShooterMotor] = 85;
+						motor[rightShooterMotor] = 85;
+						wait(8);
+						motor[secondIntakeMotor] = 127;
+
+					}//stop moving/fire
+				}//end of red side auton
+
+//----------------------------------------------------------------------------------------------------------------//
+
+				//LOW GOAL INNER BLUE
+				//Jumper in Port 5
+				else if (SensorValue [RedorBlueJumper] == 0)
+				{
+					if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -700)
+					{
+						motor[leftMotor] = -63;
+						motor[rightMotor] = -63;
+					}//first move forward
+					if (SensorValue [Right_DT_Encoder] <= -700 && SensorValue [Right_DT_Encoder] > -1480)
+					{
+						motor[rightMotor] = -63;
+						motor[leftMotor] = 0;
+					}//turn
+					else if (SensorValue [Right_DT_Encoder] <= -1480 && SensorValue [Right_DT_Encoder] > -2150)
+					{
+						motor[leftMotor] = -63;
+						motor[rightMotor] = -63;
+					}//move forward again
+					else if (SensorValue [Right_DT_Encoder] <= -2150)
+					{
+						motor[leftMotor] = 0;
+						motor[rightMotor] = 0;
+						motor[leftShooterMotor] = 85;
+						motor[rightShooterMotor] = 85;
+						wait(8);
+						motor[secondIntakeMotor] = 127;
+					}//stop moving/fire
+
+				}//end of blue side low goal
+
+			}//end of low goal code
+
+		}//simpleJumper
 	}//while loop
 }//task autonomous
 
@@ -259,8 +291,8 @@ task usercontrol()
 		}// When 6U pressed fast
 		else if(vexRT[Btn7R] == 1)
 		{
-		motor[leftShooterMotor] = -80;
-		motor[rightShooterMotor] = -80;
+			motor[leftShooterMotor] = -80;
+			motor[rightShooterMotor] = -80;
 		}// When 7R pressed reverse
 
 		else if(vexRT[Btn6D] == 1)

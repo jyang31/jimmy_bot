@@ -291,8 +291,8 @@ task usercontrol()
 		}// When 6U pressed fast
 		else if(vexRT[Btn7R] == 1)
 		{
-			motor[leftShooterMotor] = -80;
-			motor[rightShooterMotor] = -80;
+			motor[leftShooterMotor] = -100;
+			motor[rightShooterMotor] = -100;
 		}// When 7R pressed reverse
 
 		else if(vexRT[Btn6D] == 1)

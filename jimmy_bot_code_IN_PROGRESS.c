@@ -71,6 +71,7 @@ task autonomous()
 	bool stage0 = true;
 	bool stage1 = false;
 	bool stage2 = false;
+	bool stage3 = false;
 	int counter = 1;
 
 	SensorValue(Left_DT_Encoder) = 0;
@@ -130,7 +131,7 @@ task autonomous()
 		}
 	}
 
-while (stage2) {
+	while (stage2) {
 		if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 398) {
 			motor[leftMotor] = -AUTON_SPEED/counter;
 			motor[rightMotor] = -AUTON_SPEED/counter;
@@ -143,14 +144,21 @@ while (stage2) {
 			counter++;
 		}
 		if (counter == 6) {
-			stage0 = false;
-			stage1 = true;
+			stage2 = false;
+			stage3 = true;
 			counter = 1;
 			motor[leftMotor] = 0;
 			motor[rightMotor] = 0;
 			SensorValue(Left_DT_Encoder) = 0;
 			SensorValue(Right_DT_Encoder) = 0;
 		}
+	}
+	while (stage3) {
+		motor[leftShooterMotor] = 127;
+		motor[rightShooterMotor] = 127;
+		wait(8);
+		motor[secondIntakeMotor] = 127;
+
 	}
 
 

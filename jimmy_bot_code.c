@@ -3,7 +3,7 @@
 #pragma config(Sensor, dgtl5,  RedorBlueJumper, sensorDigitalIn)
 #pragma config(Sensor, dgtl6,  waitJumper,     sensorDigitalIn)
 #pragma config(Sensor, dgtl7,  LoworHigh,      sensorDigitalIn)
-#pragma config(Sensor, dgtl12, simpleJumper,   sensorDigitalIn)
+#pragma config(Sensor, dgtl8,  simpleJumper,   sensorDigitalIn)
 #pragma config(Motor,  port1,           rightShooterMotor, tmotorVex393_HBridge, openLoop, reversed)
 #pragma config(Motor,  port2,           leftMotor,     tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port3,           rightMotor,    tmotorVex393_MC29, openLoop, reversed)
@@ -85,8 +85,8 @@ task autonomous()
 
 
 		//Actual Movement
-	  //Very Basic Movement Port 12
-	  //Does not rely on encoders
+		//Very Basic Movement Port 12
+		//Does not rely on encoders
 		if (SensorValue [simpleJumper] == 0)
 		{
 			motor	[leftMotor] = -63;
@@ -94,13 +94,13 @@ task autonomous()
 			wait(3.25);
 			motor [leftMotor] = 0;
 			motor [rightMotor] = 0;
-			motor [leftShooterMotor] = 127;
-			motor [rightShooterMotor] = 127;
+			motor [leftShooterMotor] = 85;
+			motor [rightShooterMotor] = 85;
 			wait (8);
-			motor[secondIntakeMotor] = 85;
+			motor[secondIntakeMotor] = 127;
 		}//low goal; literally just move straight to low goal and fire
 
-//-------------------------------------------------------------------------------------------------------//
+		//-------------------------------------------------------------------------------------------------------//
 
 		else if (SensorValue [simpleJumper] == 1)
 		{//Movement based on encoders
@@ -139,7 +139,7 @@ task autonomous()
 					}//stop moving/fire
 				}//End of Red High Goal
 
-//------------------------------------------------------------------------------------------------------------------------//
+				//------------------------------------------------------------------------------------------------------------------------//
 
 				//HIGH GOAL INNER BLUE
 				//Jumper in Ports 5 and 7
@@ -172,7 +172,7 @@ task autonomous()
 				}//End of Blue high goal
 			}//End of High Goal Code
 
-//-------------------------------------------------------------------------------------------------//
+			//-------------------------------------------------------------------------------------------------//
 
 			//LOW GOAL OUTER RED
 			//No Jumpers in
@@ -208,7 +208,7 @@ task autonomous()
 					}//stop moving/fire
 				}//end of red side auton
 
-//----------------------------------------------------------------------------------------------------------------//
+				//----------------------------------------------------------------------------------------------------------------//
 
 				//LOW GOAL INNER BLUE
 				//Jumper in Port 5
@@ -293,7 +293,12 @@ task usercontrol()
 			motor[leftShooterMotor] = -100;
 			motor[rightShooterMotor] = -100;
 		}// When 7R pressed reverse
+		else if(vexRT[Btn8R] == 1)
 
+		{
+		motor[leftShooterMotor] = 85;
+		motor[rightShooterMotor] = 85;
+		}// When 8R pressed slow
 		else if(vexRT[Btn6D] == 1)
 		{
 			motor[leftShooterMotor] = 0;

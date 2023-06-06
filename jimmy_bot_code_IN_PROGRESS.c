@@ -130,6 +130,28 @@ task autonomous()
 		}
 	}
 
+while (stage2) {
+		if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 398) {
+			motor[leftMotor] = -AUTON_SPEED/counter;
+			motor[rightMotor] = -AUTON_SPEED/counter;
+		}
+		else if (SensorValue [Left_DT_Encoder] > 402) {
+			motor[leftMotor] = AUTON_SPEED/counter;
+			motor[rightMotor] = AUTON_SPEED/counter;
+		}
+		if (SensorValue [Left_DT_Encoder] > 398 && SensorValue [Left_DT_Encoder] < 402 ) {
+			counter++;
+		}
+		if (counter == 6) {
+			stage0 = false;
+			stage1 = true;
+			counter = 1;
+			motor[leftMotor] = 0;
+			motor[rightMotor] = 0;
+			SensorValue(Left_DT_Encoder) = 0;
+			SensorValue(Right_DT_Encoder) = 0;
+		}
+	}
 
 
 

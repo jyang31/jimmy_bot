@@ -36,6 +36,7 @@
 /*  function is only called once after the cortex has been powered on and    */
 /*  not every time that the robot is disabled.                               */
 /*---------------------------------------------------------------------------*/
+int AUTON_SPEED = 40; //high goal setup
 
 void pre_auton()
 {
@@ -66,6 +67,15 @@ void pre_auton()
 
 task autonomous()
 {
+	//high goal setup
+	bool stage0 = true;
+	bool stage1 = false;
+	bool stage2 = false;
+	bool stage3 = false;
+	int counter = 1;
+
+
+
 	SensorValue(Left_DT_Encoder) = 0;
 	SensorValue(Right_DT_Encoder) = 0;
 
@@ -105,71 +115,232 @@ task autonomous()
 		else if (SensorValue [simpleJumper] == 1)
 		{//Movement based on encoders
 
-			//HIGH GOAL INNER RED
-			//Jumper in Port 7
-			if (SensorValue [LoworHigh] == 0)
-			{
-				if (SensorValue [RedorBlueJumper] == 1)
-				{
-					if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 60)
-					{
-						motor[leftMotor] = -63;
-						motor[rightMotor] = -63;
-					}//1st move forward
-					if (SensorValue[Left_DT_Encoder] >= 60 && SensorValue[Left_DT_Encoder] < 660)
+		//HIGH GOAL CODE
 
-					{
-						motor[leftMotor] = -63;
-						motor[rightMotor] = 0;
-					}//turn
-					else if (SensorValue[Left_DT_Encoder] >= 660 && SensorValue[Left_DT_Encoder] < 1320)
-					{
-						motor[leftMotor] = -63;
-						motor[rightMotor] = -63;
-					}//move forward again
-					else if (SensorValue[Left_DT_Encoder] >= 1320)
-					{
-						motor[leftMotor] = 0;
-						motor[rightMotor] = 0;
+		//HIGH GOAL INNER BLUE
+		//Jumpers in 5 and 7
+			if (SensorValue [LoworHigh] == 0) {
+				if (SensorValue [RedorBlueJumper] == 0) { //blue
+					while (stage0) {
+						if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 198) {
+							motor[leftMotor] = -AUTON_SPEED/counter;
+							motor[rightMotor] = -AUTON_SPEED/counter;
+						}//move forward
+						else if (SensorValue [Left_DT_Encoder] > 202) {
+							motor[leftMotor] = AUTON_SPEED/counter;
+							motor[rightMotor] = AUTON_SPEED/counter;
+						}//correct movement
+						if (SensorValue [Left_DT_Encoder] > 198 && SensorValue [Left_DT_Encoder] < 202 ) {
+							counter++;
+						}// ideal range
+						if (counter == 6) {
+							stage0 = false;
+							stage1 = true;
+							counter = 1;
+							motor[leftMotor] = 0;
+							motor[rightMotor] = 0;
+							SensorValue(Left_DT_Encoder) = 0;
+							SensorValue(Right_DT_Encoder) = 0;
+						}//reset counter
+					}//end of stage 0
+					while (stage1) {
+						if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -168) {
+							motor[leftMotor] = AUTON_SPEED/counter;
+							motor[rightMotor] = -AUTON_SPEED/counter;
+						}//turn on the spot
+						else if (SensorValue [Right_DT_Encoder] < -172) {
+							motor[leftMotor] = -AUTON_SPEED/counter;
+							motor[rightMotor] = AUTON_SPEED/counter;
+						}//correct movement
+						if (SensorValue [Right_DT_Encoder] < -168 && SensorValue [Right_DT_Encoder] > -172 ) {
+							counter++;
+						}//ideal range
+						if (counter == 6) {
+							stage1 = false;
+							stage2 = true;
+							counter = 1;
+							motor[leftMotor] = 0;
+							motor[rightMotor] = 0;
+							SensorValue(Left_DT_Encoder) = 0;
+							SensorValue(Right_DT_Encoder) = 0;
+						}//reset counter
+					}//end of stage 1
+					while (stage2) {
+						if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 398) {
+							motor[leftMotor] = -AUTON_SPEED/counter;
+							motor[rightMotor] = -AUTON_SPEED/counter;
+						}//move forward
+						else if (SensorValue [Left_DT_Encoder] > 402) {
+							motor[leftMotor] = AUTON_SPEED/counter;
+							motor[rightMotor] = AUTON_SPEED/counter;
+						}//correct movement
+						if (SensorValue [Left_DT_Encoder] > 398 && SensorValue [Left_DT_Encoder] < 402 ) {
+							counter++;
+						}//ideal range
+						if (counter == 6) {
+							stage2 = false;
+							stage3 = true;
+							counter = 1;
+							motor[leftMotor] = 0;
+							motor[rightMotor] = 0;
+							SensorValue(Left_DT_Encoder) = 0;
+							SensorValue(Right_DT_Encoder) = 0;
+						}//reset counter
+					}//end of stage 2
+					while (stage3) {
 						motor[leftShooterMotor] = 127;
 						motor[rightShooterMotor] = 127;
 						wait(8);
 						motor[secondIntakeMotor] = 127;
+					}//fire
+				}//end of blue
 
-					}//stop moving/fire
-				}//End of Red High Goal
+//---------------------------------------------------------------------------------------------------------//
 
-				//------------------------------------------------------------------------------------------------------------------------//
+				//HIGH GOAL INNER RED
+				//Jumper in Port 7
 
-				//HIGH GOAL INNER BLUE
-				//Jumper in Ports 5 and 7
-				else if (SensorValue [RedorBlueJumper] == 0)
-				{
-					if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -80)
-					{
-						motor[leftMotor] = -63;
-						motor[rightMotor] = -63;
-					}//first move forward
-					if (SensorValue [Right_DT_Encoder] <= -80 && SensorValue [Right_DT_Encoder] > -600)
-					{
-						motor[rightMotor] = -63;
-						motor[leftMotor] = 0;
-					}//turn
-					else if (SensorValue [Right_DT_Encoder] <= -600 && SensorValue [Right_DT_Encoder] > -1340)
-					{
-						motor[leftMotor] = -63;
-						motor[rightMotor] = -63;
-					}//move forward again
-					else if (SensorValue [Right_DT_Encoder] <= -1340)
-					{
-						motor[leftMotor] = 0;
-						motor[rightMotor] = 0;
+				if (SensorValue [RedorBlueJumper] == 1) { //red
+					while (stage0) {
+						if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 198) {
+							motor[leftMotor] = -AUTON_SPEED/counter;
+							motor[rightMotor] = -AUTON_SPEED/counter;
+						}//move forward
+						else if (SensorValue [Left_DT_Encoder] > 202) {
+							motor[leftMotor] = AUTON_SPEED/counter;
+							motor[rightMotor] = AUTON_SPEED/counter;
+						}//correct movement
+						if (SensorValue [Left_DT_Encoder] > 198 && SensorValue [Left_DT_Encoder] < 202 ) {
+							counter++;
+						}//ideal range
+						if (counter == 6) {
+							stage0 = false;
+							stage1 = true;
+							counter = 1;
+							motor[leftMotor] = 0;
+							motor[rightMotor] = 0;
+							SensorValue(Left_DT_Encoder) = 0;
+							SensorValue(Right_DT_Encoder) = 0;
+						}//reset counter
+					}//end of stage 0
+					while (stage1) {
+						if (SensorValue [Right_DT_Encoder] >= 0 && SensorValue [Right_DT_Encoder] < 168) {
+							motor[leftMotor] = -AUTON_SPEED/counter;
+							motor[rightMotor] = AUTON_SPEED/counter;
+						}//turn on the spot
+						else if (SensorValue [Right_DT_Encoder] > 172) {
+							motor[leftMotor] = AUTON_SPEED/counter;
+							motor[rightMotor] = -AUTON_SPEED/counter;
+						}//correct movement
+						if (SensorValue [Right_DT_Encoder] > 168 && SensorValue [Right_DT_Encoder] < 172 ) {
+							counter++;
+						}//ideal range
+						if (counter == 6) {
+							stage1 = false;
+							stage2 = true;
+							counter = 1;
+							motor[leftMotor] = 0;
+							motor[rightMotor] = 0;
+							SensorValue(Left_DT_Encoder) = 0;
+							SensorValue(Right_DT_Encoder) = 0;
+						}//reset counter
+					}//end of stage 1
+					while (stage2) {
+						if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 398) {
+							motor[leftMotor] = -AUTON_SPEED/counter;
+							motor[rightMotor] = -AUTON_SPEED/counter;
+						}//move forward
+						else if (SensorValue [Left_DT_Encoder] > 402) {
+							motor[leftMotor] = AUTON_SPEED/counter;
+							motor[rightMotor] = AUTON_SPEED/counter;
+						}//correct movement
+						if (SensorValue [Left_DT_Encoder] > 398 && SensorValue [Left_DT_Encoder] < 402 ) {
+							counter++;
+						}//ideal range
+						if (counter == 6) {
+							stage2 = false;
+							stage3 = true;
+							counter = 1;
+							motor[leftMotor] = 0;
+							motor[rightMotor] = 0;
+							SensorValue(Left_DT_Encoder) = 0;
+							SensorValue(Right_DT_Encoder) = 0;
+						}//reset counter
+					}//end of stage 2
+					while (stage3) {
 						motor[leftShooterMotor] = 127;
 						motor[rightShooterMotor] = 127;
 						wait(8);
 						motor[secondIntakeMotor] = 127;
-					}//stop moving/fire
-				}//End of Blue high goal
+					}//fire
+				}//red
+	//-----------------------------scrapped code please ignore-------------------------------------------//
+				////HIGH GOAL INNER RED
+				////Jumper in Port 7
+				//if (SensorValue [LoworHigh] == 0)
+				//{
+				//	if (SensorValue [RedorBlueJumper] == 1)
+				//	{
+				//		if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 60)
+				//		{
+				//			motor[leftMotor] = -63;
+				//			motor[rightMotor] = -63;
+				//		}//1st move forward
+				//		if (SensorValue[Left_DT_Encoder] >= 60 && SensorValue[Left_DT_Encoder] < 660)
+
+				//		{
+				//			motor[leftMotor] = -63;
+				//			motor[rightMotor] = 0;
+				//		}//turn
+				//		else if (SensorValue[Left_DT_Encoder] >= 660 && SensorValue[Left_DT_Encoder] < 1320)
+				//		{
+				//			motor[leftMotor] = -63;
+				//			motor[rightMotor] = -63;
+				//		}//move forward again
+				//		else if (SensorValue[Left_DT_Encoder] >= 1320)
+				//		{
+				//			motor[leftMotor] = 0;
+				//			motor[rightMotor] = 0;
+				//			motor[leftShooterMotor] = 127;
+				//			motor[rightShooterMotor] = 127;
+				//			wait(8);
+				//			motor[secondIntakeMotor] = 127;
+
+				//		}//stop moving/fire
+				//	}//End of Red High Goal
+
+				//	//------------------------------------------------------------------------------------------------------------------------//
+
+				//	//HIGH GOAL INNER BLUE
+				//	//Jumper in Ports 5 and 7
+				//	else if (SensorValue [RedorBlueJumper] == 0)
+				//	{
+				//		if (SensorValue [Right_DT_Encoder] <= 0 && SensorValue [Right_DT_Encoder] > -80)
+				//		{
+				//			motor[leftMotor] = -63;
+				//			motor[rightMotor] = -63;
+				//		}//first move forward
+				//		if (SensorValue [Right_DT_Encoder] <= -80 && SensorValue [Right_DT_Encoder] > -600)
+				//		{
+				//			motor[rightMotor] = -63;
+				//			motor[leftMotor] = 0;
+				//		}//turn
+				//		else if (SensorValue [Right_DT_Encoder] <= -600 && SensorValue [Right_DT_Encoder] > -1340)
+				//		{
+				//			motor[leftMotor] = -63;
+				//			motor[rightMotor] = -63;
+				//		}//move forward again
+				//		else if (SensorValue [Right_DT_Encoder] <= -1340)
+				//		{
+				//			motor[leftMotor] = 0;
+				//			motor[rightMotor] = 0;
+				//			motor[leftShooterMotor] = 127;
+				//			motor[rightShooterMotor] = 127;
+				//			wait(8);
+				//			motor[secondIntakeMotor] = 127;
+				//		}//stop moving/fire
+				//	}//End of Blue high goal
+//-------------------------------------------end of scrapped code----------------------------------//
 			}//End of High Goal Code
 
 			//-------------------------------------------------------------------------------------------------//
@@ -296,8 +467,8 @@ task usercontrol()
 		else if(vexRT[Btn8R] == 1)
 
 		{
-		motor[leftShooterMotor] = 85;
-		motor[rightShooterMotor] = 85;
+			motor[leftShooterMotor] = 85;
+			motor[rightShooterMotor] = 85;
 		}// When 8R pressed slow
 		else if(vexRT[Btn6D] == 1)
 		{

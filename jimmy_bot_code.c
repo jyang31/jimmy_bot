@@ -115,10 +115,10 @@ task autonomous()
 		else if (SensorValue [simpleJumper] == 1)
 		{//Movement based on encoders
 
-		//HIGH GOAL CODE
+			//HIGH GOAL CODE
 
-		//HIGH GOAL INNER BLUE
-		//Jumpers in 5 and 7
+			//HIGH GOAL INNER BLUE
+			//Jumpers in 5 and 7
 			if (SensorValue [LoworHigh] == 0) {
 				if (SensorValue [RedorBlueJumper] == 0) { //blue
 					while (stage0) {
@@ -195,22 +195,22 @@ task autonomous()
 					}//fire
 				}//end of blue
 
-//---------------------------------------------------------------------------------------------------------//
+				//---------------------------------------------------------------------------------------------------------//
 
 				//HIGH GOAL INNER RED
 				//Jumper in Port 7
 
 				if (SensorValue [RedorBlueJumper] == 1) { //red
 					while (stage0) {
-						if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 198) {
-							motor[leftMotor] = -AUTON_SPEED/counter;
-							motor[rightMotor] = -AUTON_SPEED/counter;
+						if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 238) {
+							motor[leftMotor] = -AUTON_SPEED;
+							motor[rightMotor] = -AUTON_SPEED;
 						}//move forward
-						else if (SensorValue [Left_DT_Encoder] > 202) {
-							motor[leftMotor] = AUTON_SPEED/counter;
-							motor[rightMotor] = AUTON_SPEED/counter;
+						else if (SensorValue [Left_DT_Encoder] > 242) {
+							motor[leftMotor] = AUTON_SPEED;
+							motor[rightMotor] = AUTON_SPEED;
 						}//correct movement
-						if (SensorValue [Left_DT_Encoder] > 198 && SensorValue [Left_DT_Encoder] < 202 ) {
+						if (SensorValue [Left_DT_Encoder] > 238 && SensorValue [Left_DT_Encoder] < 242 ) {
 							counter++;
 						}//ideal range
 						if (counter == 6) {
@@ -224,15 +224,15 @@ task autonomous()
 						}//reset counter
 					}//end of stage 0
 					while (stage1) {
-						if (SensorValue [Right_DT_Encoder] >= 0 && SensorValue [Right_DT_Encoder] < 168) {
-							motor[leftMotor] = -AUTON_SPEED/counter;
-							motor[rightMotor] = AUTON_SPEED/counter;
+						if (SensorValue [Right_DT_Encoder] >= 0 && SensorValue [Right_DT_Encoder] < 108) {
+							motor[leftMotor] = -AUTON_SPEED;
+							motor[rightMotor] = AUTON_SPEED;
 						}//turn on the spot
-						else if (SensorValue [Right_DT_Encoder] > 172) {
-							motor[leftMotor] = AUTON_SPEED/counter;
-							motor[rightMotor] = -AUTON_SPEED/counter;
+						else if (SensorValue [Right_DT_Encoder] > 112) {
+							motor[leftMotor] = AUTON_SPEED;
+							motor[rightMotor] = -AUTON_SPEED;
 						}//correct movement
-						if (SensorValue [Right_DT_Encoder] > 168 && SensorValue [Right_DT_Encoder] < 172 ) {
+						if (SensorValue [Right_DT_Encoder] > 108 && SensorValue [Right_DT_Encoder] < 112 ) {
 							counter++;
 						}//ideal range
 						if (counter == 6) {
@@ -246,15 +246,15 @@ task autonomous()
 						}//reset counter
 					}//end of stage 1
 					while (stage2) {
-						if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 398) {
-							motor[leftMotor] = -AUTON_SPEED/counter;
-							motor[rightMotor] = -AUTON_SPEED/counter;
+						if (SensorValue [Left_DT_Encoder] >= 0 && SensorValue [Left_DT_Encoder] < 898) {
+							motor[leftMotor] = -AUTON_SPEED;
+							motor[rightMotor] = -AUTON_SPEED;
 						}//move forward
-						else if (SensorValue [Left_DT_Encoder] > 402) {
-							motor[leftMotor] = AUTON_SPEED/counter;
-							motor[rightMotor] = AUTON_SPEED/counter;
+						else if (SensorValue [Left_DT_Encoder] > 902) {
+							motor[leftMotor] = AUTON_SPEED;
+							motor[rightMotor] = AUTON_SPEED;
 						}//correct movement
-						if (SensorValue [Left_DT_Encoder] > 398 && SensorValue [Left_DT_Encoder] < 402 ) {
+						if (SensorValue [Left_DT_Encoder] > 898 && SensorValue [Left_DT_Encoder] < 902 ) {
 							counter++;
 						}//ideal range
 						if (counter == 6) {
@@ -274,7 +274,7 @@ task autonomous()
 						motor[secondIntakeMotor] = 127;
 					}//fire
 				}//red
-	//-----------------------------scrapped code please ignore-------------------------------------------//
+				//-----------------------------scrapped code please ignore-------------------------------------------//
 				////HIGH GOAL INNER RED
 				////Jumper in Port 7
 				//if (SensorValue [LoworHigh] == 0)
@@ -340,7 +340,7 @@ task autonomous()
 				//			motor[secondIntakeMotor] = 127;
 				//		}//stop moving/fire
 				//	}//End of Blue high goal
-//-------------------------------------------end of scrapped code----------------------------------//
+				//-------------------------------------------end of scrapped code----------------------------------//
 			}//End of High Goal Code
 
 			//-------------------------------------------------------------------------------------------------//
